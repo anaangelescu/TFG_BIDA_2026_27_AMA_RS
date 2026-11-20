@@ -1,6 +1,6 @@
 # tfg-rul-uncertainty
 
-**When does uncertainty pay? Prediction intervals, maintenance decisions and the break-even in euros**
+**When does uncertainty pay? The failure cost at which calibrated prediction intervals beat a tuned safety margin in aircraft engine removals**
 *(working title, built on the tutor's feedback of 14 Oct 2026; still to be agreed)*
 
 Bachelor's thesis (TFG). Ana-Maria Angelescu & Rune Snauwaert, Business Intelligence and Data Analytics, La Salle Barcelona, 2026–2027. Tutor: Jonas Viklund.
@@ -344,7 +344,7 @@ A margin can be left to the planner within ± 5 cycles for under 4 %. A confiden
 ## 9. Repository layout
 
 ```
-TFG_BIDA_2026-27_AMA_RS/              # raw data lives OUTSIDE the repo or in data/ (git-ignored)
+TFG_BIDA_2026_27_AMA_RS/              # raw data lives OUTSIDE the repo or in data/ (git-ignored)
 ├── src/
 │   ├── config.py        # RUL_CAP, SEED, folds, strata, COST_RATIOS, HORIZONS, PLANNED_REMOVAL_EUR, data lookup
 │   ├── load.py          # load_subset(name) -> train, test, rul; asserts counts
@@ -376,8 +376,8 @@ TFG_BIDA_2026-27_AMA_RS/              # raw data lives OUTSIDE the repo or in da
 ## 10. Setup
 
 ```bash
-git clone https://github.com/anaangelescu/TFG_BIDA_2026-27_AMA_RS.git
-cd TFG_BIDA_2026-27_AMA_RS
+git clone https://github.com/anaangelescu/TFG_BIDA_2026_27_AMA_RS.git
+cd TFG_BIDA_2026_27_AMA_RS
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 pip install -e .                                       # makes `import src.…` work from notebooks and tests
