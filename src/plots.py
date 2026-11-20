@@ -41,6 +41,57 @@ def plot_sensor_traces(train_df: pd.DataFrame, units, subset: str, sensors=SENSO
     return fig
 
 
+def plot_sensor_traces_annotated(train_df: pd.DataFrame, units, subset: str) -> plt.Figure:
+    """Show selected raw traces with callouts for operating-condition effects."""
+    sensors = ["s_1", "s_8", "s_14", "s_16"]
+    fig, axes = plt.subplots(2, 2, figsize=(11, 6), sharex=True)
+    axes = axes.ravel()
+    for ax, sensor in zip(axes, sensors):
+        for unit in units:
+            engine = train_df[train_df["unit"] == unit]
+            ax.plot(engine["cycle"], engine[sensor], lw=0.9, label=f"unit {unit}")
+        ax.set_title(sensor)
+        ax.set_xlabel("cycle")
+        ax.set_ylabel("reading")
+
+    axes[0].annotate(
+        "Large jumps between bands\nmostly reflect operating conditions",
+        xy=(110, axes[0].get_ylim()[0] + 0.55 * (axes[0].get_ylim()[1] - axes[0].get_ylim()[0])),
+        xytext=(35, axes[0].get_ylim()[1]),
+        arrowprops={"arrowstyle": "->", "color": "tab:red"},
+        color="tab:red",
+        fontsize=9,
+    )
+    axes[1].annotate(
+        "One engine shows a clear decline;\nothers are dominated by regime bands",
+        xy=(185, axes[1].get_ylim()[0] + 0.2 * (axes[1].get_ylim()[1] - axes[1].get_ylim()[0])),
+        xytext=(80, axes[1].get_ylim()[1]),
+        arrowprops={"arrowstyle": "->", "color": "tab:orange"},
+        color="tab:orange",
+        fontsize=9,
+    )
+    axes[2].annotate(
+        "More gradual drift is visible\nfor some engines",
+        xy=(220, axes[2].get_ylim()[0] + 0.65 * (axes[2].get_ylim()[1] - axes[2].get_ylim()[0])),
+        xytext=(80, axes[2].get_ylim()[0]),
+        arrowprops={"arrowstyle": "->", "color": "tab:green"},
+        color="tab:green",
+        fontsize=9,
+    )
+    axes[3].annotate(
+        "Nearly fixed bands: useful\nto remove or normalize",
+        xy=(145, axes[3].get_ylim()[0] + 0.5 * (axes[3].get_ylim()[1] - axes[3].get_ylim()[0])),
+        xytext=(35, axes[3].get_ylim()[1]),
+        arrowprops={"arrowstyle": "->", "color": "tab:blue"},
+        color="tab:blue",
+        fontsize=9,
+    )
+    axes[0].legend(fontsize=7)
+    fig.suptitle(f"{subset}: what the raw traces show", y=1.02)
+    fig.tight_layout()
+    return fig
+
+
 def plot_rul_correlation(corr: pd.DataFrame, subset: str) -> plt.Figure:
     """`corr` : DataFrame indexed by sensor with one column per RUL definition (e.g. capped / uncapped)."""
     fig, ax = plt.subplots(figsize=(9, 3.5))
